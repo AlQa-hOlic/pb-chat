@@ -8,7 +8,7 @@ def setup_routes(app: FastAPI):
     Each Router specified in routes/* must be referenced in setup_routes(),
     as a new app.include_router() call.
     """
-    app.include_router(core.router, prefix="", tags=["core"])
+    app.include_router(core.router, prefix="/api", tags=["core"])
 
 
 TAGS_METADATA = [

@@ -1,5 +1,5 @@
 import os
-from typing import Optional
+from typing import Optional, Union
 
 import pydantic
 
@@ -39,7 +39,7 @@ class LoggingSettings(BaseSettings):
 
     level: str = "DEBUG"
     serialize: bool = False
-    file: str | None = None
+    file: Union[str, None] = None
 
     class Config(BaseSettings.Config):
         env_prefix = "LOG_"

@@ -11,7 +11,6 @@ RUN adduser --uid $UID --disabled-password --gecos '' $USER
 USER $USER
 WORKDIR /home/$USER
 
-
 # Install requirements
 #  (copy isolated from project root, to avoid having to install everything again if something on the project sources changed, but not in requirements)
 COPY ./requirements.txt /tmp/requirements.txt

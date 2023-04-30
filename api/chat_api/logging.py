@@ -14,7 +14,7 @@ logger.remove()
 
 if config.file != None:
     logger.add(
-        open(config.file, 'a'),
+        open(config.file, "a"),
         level=config.level.upper(),
         format=LoggerFormat,
         serialize=config.serialize,

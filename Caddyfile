@@ -1,0 +1,15 @@
+localhost {
+	reverse_proxy /api/* localhost:8080
+	reverse_proxy /socket.io/* localhost:8081 {
+		lb_policy ip_hash
+	}
+	reverse_proxy * localhost:5173
+
+	handle_path /adminer/* {
+		reverse_proxy localhost:5433
+	}
+	
+	handle_path /mailhog/* {
+		reverse_proxy localhost:1026
+	}
+}
