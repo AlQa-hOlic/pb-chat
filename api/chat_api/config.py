@@ -33,6 +33,18 @@ class ChatApiSettings(BaseSettings):
     version: str = "0.0.1"
     """Version of the API"""
 
+    secret: str = "586e792e5af7d30d90801fbf829e8263"
+    """
+    App secret used for session, jwt, encryption
+
+    Generate using: node -e "console.log(require('crypto').randomBytes(16).toString('hex'))"
+    """
+
+    database_url: str = (
+        "postgresql+asyncpg://postgres:postgres@localhost:5432/chatappdb"
+    )
+    """Postgres database URL"""
+
 
 class LoggingSettings(BaseSettings):
     """Settings related with the logging"""

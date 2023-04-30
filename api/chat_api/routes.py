@@ -1,6 +1,8 @@
+import uuid
 from fastapi import FastAPI
 
-from .api import core
+
+from chat_api.api import core
 
 
 def setup_routes(app: FastAPI):

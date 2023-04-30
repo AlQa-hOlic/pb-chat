@@ -21,7 +21,8 @@ config = context.config
 config.set_main_option(
     "sqlalchemy.url",
     os.environ.get(
-        "DATABASE_URL", "postgresql+psycopg2://user:password@postgres:5432/db"
+        "DATABASE_URL",
+        "postgresql+psycopg2://postgres:postgres@localhost:5432/chatappdb",
     ),
 )
 
@@ -35,7 +36,7 @@ if config.config_file_name is not None:
 # from myapp import mymodel
 # target_metadata = mymodel.Base.metadata
 # target_metadata = None
-from chat_api.db import Base
+from chat_api.models import Base
 
 target_metadata = Base.metadata
 
