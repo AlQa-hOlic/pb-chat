@@ -1,12 +1,12 @@
-import uvicorn
-from fastapi import FastAPI
 from logging import config as logging_config
 
-from chat_api.config import config
-from chat_api.routes import TAGS_METADATA, setup_routes
-from chat_api.middleware import request_handler
-from chat_api.db import database
+import uvicorn
+from fastapi import FastAPI
 
+from core.config import config
+from core.db import database
+from core.middleware import request_handler
+from routes import TAGS_METADATA, setup_routes
 
 logging_config.fileConfig("logging.ini")
 
@@ -31,6 +31,5 @@ async def shutdown():
     await database.disconnect()
 
 
-def run():
-    """Run the API using Uvicorn"""
-    uvicorn.run(app, host=config.host, port=config.port)
+if __name__ == "__main__":
+    uvicorn.run("app:app", host=config.host, port=config.port, reload=config.debug)

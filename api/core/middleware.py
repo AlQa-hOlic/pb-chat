@@ -1,17 +1,17 @@
 import logging
+
 from fastapi import Request, Response
 
-from .exceptions.base import BaseAPIException, InternalServerException
-from .utils import get_time, get_uuid
+from core.utils import get_time
+from exceptions.base import BaseAPIException, InternalServerException
 
-log = logging.getLogger("chat_api")
+log = logging.getLogger("chat_api.middleware")
 
 
 async def request_handler(request: Request, call_next):
     """
     Middleware used by FastAPI to process each request, featuring:
 
-    - Contextualize request logs with an unique Request ID (UUID4) for each unique request.
     - Catch exceptions during the request handling. Translate custom API exceptions into responses,
       or treat (and log) unexpected exceptions.
     """
@@ -35,7 +35,7 @@ async def request_handler(request: Request, call_next):
     time_elapsed = round(end_time - start_time, 5)
     response.headers["X-Process-Time"] = str(time_elapsed)
     log.info(
-        "Request ended url=%s method=%s time_elapsed=%s status=%s",
+        "Request to url=%s method=%s time_elapsed=%s status=%s",
         request.url,
         request.method,
         time_elapsed,

@@ -1,5 +1,5 @@
 import os
-from typing import Optional, Union
+from typing import Optional
 
 import pydantic
 
@@ -18,6 +18,9 @@ class BaseSettings(pydantic.BaseSettings):
 
 
 class ChatApiSettings(BaseSettings):
+    debug: bool = False
+    """Whether the app should run in debug mode"""
+
     host: str = "0.0.0.0"
     """Host where the API is run"""
 
@@ -46,16 +49,4 @@ class ChatApiSettings(BaseSettings):
     """Postgres database URL"""
 
 
-class LoggingSettings(BaseSettings):
-    """Settings related with the logging"""
-
-    level: str = "DEBUG"
-    serialize: bool = False
-    file: Union[str, None] = None
-
-    class Config(BaseSettings.Config):
-        env_prefix = "LOG_"
-
-
 config = ChatApiSettings()
-log_config = LoggingSettings()
