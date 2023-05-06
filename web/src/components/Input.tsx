@@ -9,7 +9,7 @@ function Input(
   ref: Ref<HTMLInputElement>
 ) {
   const styleClasses =
-    'w-full rounded-md border-2 border-gray-300 p-2 px-3 focus:outline-none focus:ring focus:border-orange-300 focus:ring-orange-300 focus:ring-opacity-50'
+    'w-full rounded-md border-2 border-slate-200 p-2 px-3 focus:outline-none focus:ring focus:border-orange-300 focus:ring-orange-300 focus:ring-opacity-50'
   const errorStyleClasses =
     'border-red-400 focus:border-red-400 focus:ring-red-300'
   const className = [
