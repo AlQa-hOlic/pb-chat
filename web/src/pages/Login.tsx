@@ -1,6 +1,7 @@
 import { SubmitHandler, useForm } from 'react-hook-form'
-import { Navigate, useLocation, useNavigate } from 'react-router-dom'
+import { Link, Navigate, useLocation, useNavigate } from 'react-router-dom'
 
+import { ReactComponent as Logo } from '../assets/pb_chat.svg'
 import Input from '../components/Input'
 import { pb } from '../services'
 
@@ -15,7 +16,8 @@ export default function Login() {
 
   const from = location.state?.from?.pathname || '/'
 
-  const { handleSubmit, register, formState, setError } = useForm<LoginForm>()
+  const { handleSubmit, register, formState, setError, reset } =
+    useForm<LoginForm>()
 
   const onSubmitLogin: SubmitHandler<LoginForm> = async ({
     username,
@@ -23,6 +25,9 @@ export default function Login() {
   }) => {
     try {
       await pb.collection('users').authWithPassword(username, password)
+
+      // Reset form
+      reset()
 
       if (pb.authStore.isValid) {
         // Send them back to the page they tried to visit when they were
@@ -34,25 +39,21 @@ export default function Login() {
         navigate(from, { replace: true })
       }
     } catch (e) {
-      setError(
-        'root',
-        { message: 'Invalid Credentials!' },
-        { shouldFocus: true }
-      )
+      setError('root', { message: 'Invalid Credentials!' })
     }
   }
 
-  const forgotPassword = async () => {
-    return
-  }
-
+  // If the user is already logged in, send them back!
   if (pb.authStore.isValid) {
     return <Navigate to={from} replace />
   }
 
   return (
     <div className="flex h-96 min-h-screen flex-col items-center justify-center space-y-8">
-      <h1 className="text-4xl">Login</h1>
+      <h1 className="flex items-center justify-center gap-4 text-3xl">
+        <span>Login to</span>
+        <Logo className="h-12 w-12 text-orange-500" />
+      </h1>
       <form
         onSubmit={handleSubmit(onSubmitLogin)}
         className="flex w-full max-w-xs flex-col items-start space-y-3"
@@ -80,13 +81,13 @@ export default function Login() {
               : 'Password is invalid'
           }
         />
-        <button
+        <Link
+          to="/forgot-password"
           type="button"
-          onClick={forgotPassword}
           className="text-xs font-semibold text-orange-300 hover:text-orange-400 focus:underline focus:outline-none"
         >
           Forgot password?
-        </button>
+        </Link>
         <button
           type="submit"
           className="flex w-full items-center justify-center rounded-md bg-orange-500 px-4 py-2 text-sm font-semibold leading-6 text-white shadow transition duration-150 ease-in-out hover:bg-orange-400 focus:outline-none focus:ring focus:ring-orange-300 disabled:cursor-not-allowed disabled:bg-gray-700"
