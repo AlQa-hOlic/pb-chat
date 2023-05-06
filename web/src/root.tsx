@@ -1,4 +1,5 @@
 import { animated, useTransition } from '@react-spring/web'
+import { Toaster } from 'react-hot-toast'
 import { QueryClient, QueryClientProvider } from 'react-query'
 import { ReactQueryDevtools } from 'react-query/devtools'
 import { Outlet, useNavigation } from 'react-router-dom'
@@ -62,6 +63,7 @@ export default function Root() {
         )}
         <Outlet />
       </main>
+      <Toaster position="top-right" />
       <ReactQueryDevtools />
     </QueryClientProvider>
   )

@@ -1,4 +1,5 @@
 import { SubmitHandler, useForm } from 'react-hook-form'
+import { toast } from 'react-hot-toast'
 import { Link, Navigate, useLocation, useNavigate } from 'react-router-dom'
 
 import { ReactComponent as Logo } from '../assets/pb_chat.svg'
@@ -16,8 +17,7 @@ export default function Login() {
 
   const from = location.state?.from?.pathname || '/'
 
-  const { handleSubmit, register, formState, setError, reset } =
-    useForm<LoginForm>()
+  const { handleSubmit, register, formState, reset } = useForm<LoginForm>()
 
   const onSubmitLogin: SubmitHandler<LoginForm> = async ({
     username,
@@ -39,7 +39,7 @@ export default function Login() {
         navigate(from, { replace: true })
       }
     } catch (e) {
-      setError('root', { message: 'Invalid Credentials!' })
+      toast.error('Invalid Credentials!')
     }
   }
 
@@ -58,11 +58,6 @@ export default function Login() {
         onSubmit={handleSubmit(onSubmitLogin)}
         className="flex w-full max-w-xs flex-col items-start space-y-3"
       >
-        {formState.errors.root && (
-          <p className="w-full text-center text-red-400">
-            {formState.errors.root.message}
-          </p>
-        )}
         <Input
           type="text"
           {...register('username', { required: true })}
