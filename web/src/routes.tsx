@@ -2,10 +2,10 @@ import { RouteObject } from 'react-router-dom'
 
 import RequireAuth from './components/RouteGuards/RequireAuth'
 import MainLayout from './layouts/Main'
-import AddFriend from './pages/AddFriend'
 import ErrorPage from './pages/Error'
 import Home from './pages/Home'
 import Login from './pages/Login'
+import ManageFriends from './pages/ManageFriends'
 import Messages from './pages/Messages'
 import Settings from './pages/Settings'
 import Root from './root'
@@ -37,10 +37,10 @@ export default [
             ),
           },
           {
-            path: 'add_friend',
+            path: 'manage_friends',
             element: (
               <RequireAuth>
-                <AddFriend />
+                <ManageFriends />
               </RequireAuth>
             ),
           },

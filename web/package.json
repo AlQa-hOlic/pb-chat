@@ -12,6 +12,7 @@
     "build-storybook": "storybook build"
   },
   "dependencies": {
+    "@headlessui/react": "^1.7.14",
     "@react-spring/web": "^9.7.2",
     "date-fns": "^2.30.0",
     "pocketbase": "^0.14.4",

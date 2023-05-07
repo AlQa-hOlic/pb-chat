@@ -1,6 +1,6 @@
 import { Outlet } from 'react-router-dom'
 
-import { ReactComponent as AddFriendIcon } from '../assets/add_friend.svg'
+import { ReactComponent as AddFriendIcon } from '../assets/friends.svg'
 import { ReactComponent as MessageIcon } from '../assets/messages.svg'
 import { ReactComponent as Logo } from '../assets/pb_chat.svg'
 import { ReactComponent as SettingsIcon } from '../assets/settings.svg'
@@ -19,7 +19,7 @@ export default function MainLayout() {
       label: 'Messages',
     },
     {
-      href: '/add_friend',
+      href: '/manage_friends',
       icon: AddFriendIcon,
       label: 'Add Friend',
     },

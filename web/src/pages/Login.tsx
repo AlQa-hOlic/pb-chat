@@ -70,9 +70,9 @@ export default function Login() {
           placeholder="Password"
           errorText={
             formState.errors.password &&
-            formState.errors.password?.type === 'required'
+            (formState.errors.password?.type === 'required'
               ? 'Password is required'
-              : 'Password is invalid'
+              : 'Password is invalid')
           }
         />
         <Link
