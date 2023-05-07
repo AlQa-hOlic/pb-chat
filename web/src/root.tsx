@@ -64,7 +64,7 @@ export default function Root() {
         <Outlet />
       </main>
       <Toaster position="top-right" />
-      <ReactQueryDevtools />
+      <ReactQueryDevtools position="top-right" />
     </QueryClientProvider>
   )
 }

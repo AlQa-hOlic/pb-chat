@@ -1,7 +1,7 @@
 THIS_FILE := $(lastword $(MAKEFILE_LIST))
 
 help: # Show help for Makefile commands
-	@grep -E '^[a-zA-Z0-9 -]+:.*#' $(THIS_FILE)
+	@grep -E '^[a-zA-Z0-9 -_]+:.*#' $(THIS_FILE)
 ps: # List all services
 	@docker compose ps -a
 up: # Start docker services
@@ -11,7 +11,9 @@ down: # Stop docker services
 restart: # Restart docker services
 	@docker compose stop $(c)
 	@docker compose up -d $(c)
-db-shell: # Connect to psql in 'postgres' service
-	@docker compose exec postgres psql -Upostgres
+web_dev: # Run socket.io dev server
+	@yarn workspace web dev
+socket_server_dev: # Run web dev server
+	@yarn workspace socket-server dev
 
 .default: help

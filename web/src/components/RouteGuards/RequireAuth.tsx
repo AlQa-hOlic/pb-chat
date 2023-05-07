@@ -1,6 +1,6 @@
 import { Navigate, useLocation } from 'react-router-dom'
 
-import { pb } from '../../services'
+import { pb } from '../../services/index'
 
 export default function RequireAuth({ children }: { children: JSX.Element }) {
   const location = useLocation()

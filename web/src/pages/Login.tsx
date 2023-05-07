@@ -62,15 +62,14 @@ export default function Login() {
           type="text"
           {...register('username', { required: true })}
           placeholder="Enter your username or email"
-          isError={!!formState.errors.username}
-          errorText="Username is required"
+          errorText={formState.errors.username && 'Username is required'}
         />
         <Input
           type="password"
           {...register('password', { required: true, minLength: 8 })}
           placeholder="Password"
-          isError={!!formState.errors.password}
           errorText={
+            formState.errors.password &&
             formState.errors.password?.type === 'required'
               ? 'Password is required'
               : 'Password is invalid'

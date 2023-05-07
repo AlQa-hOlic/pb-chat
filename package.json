@@ -2,6 +2,10 @@
   "name": "pb-chat",
   "version": "0.1.0",
   "private": true,
+  "workspaces": [
+    "socket-server",
+    "web"
+  ],
   "author": "Rohit Krishnan <rohit.k.kesavan@gmail.com>",
   "license": "MIT",
   "scripts": {
@@ -12,7 +16,8 @@
     "@commitlint/config-conventional": "^17.6.3",
     "@release-it/conventional-changelog": "^5.1.1",
     "husky": "^8.0.3",
-    "release-it": "^15.10.3"
+    "release-it": "^15.10.3",
+    "typescript": "^5.0.4"
   },
   "commitlint": {
     "extends": [
