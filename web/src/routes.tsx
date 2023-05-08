@@ -2,11 +2,14 @@ import { RouteObject } from 'react-router-dom'
 
 import RequireAuth from './components/RouteGuards/RequireAuth'
 import MainLayout from './layouts/Main'
+import Conversation, {
+  loader as conversationLoader,
+} from './pages/Conversation'
+import Conversations from './pages/Conversations'
 import ErrorPage from './pages/Error'
 import Home from './pages/Home'
 import Login from './pages/Login'
 import ManageFriends from './pages/ManageFriends'
-import Messages from './pages/Messages'
 import Settings from './pages/Settings'
 import Root from './root'
 
@@ -29,12 +32,23 @@ export default [
             ),
           },
           {
-            path: 'messages',
+            path: 'conversations',
             element: (
               <RequireAuth>
-                <Messages />
+                <Conversations />
               </RequireAuth>
             ),
+            children: [
+              {
+                path: ':conversationId',
+                loader: conversationLoader,
+                element: (
+                  <RequireAuth>
+                    <Conversation />
+                  </RequireAuth>
+                ),
+              },
+            ],
           },
           {
             path: 'manage_friends',

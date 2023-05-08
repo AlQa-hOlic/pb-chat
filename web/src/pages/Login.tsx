@@ -15,7 +15,7 @@ export default function Login() {
   const location = useLocation()
   const navigate = useNavigate()
 
-  const from = location.state?.from?.pathname || '/'
+  const from = location.state?.from?.pathname || '/conversations'
 
   const { handleSubmit, register, formState, reset } = useForm<LoginForm>()
 
@@ -84,7 +84,7 @@ export default function Login() {
         </Link>
         <button
           type="submit"
-          className="flex w-full items-center justify-center rounded-md bg-orange-500 px-4 py-2 text-sm font-semibold leading-6 text-white shadow transition duration-150 ease-in-out hover:bg-orange-400 focus:outline-none focus:ring focus:ring-orange-300 disabled:cursor-not-allowed disabled:bg-gray-700"
+          className="flex w-full items-center justify-center rounded-md bg-orange-500 px-4 py-2 text-sm font-semibold leading-6 text-white shadow transition duration-200 ease-in-out hover:bg-orange-400 focus:outline-none focus:ring focus:ring-orange-300 disabled:cursor-not-allowed disabled:bg-gray-700"
           disabled={formState.isSubmitting}
         >
           {formState.isSubmitting && (

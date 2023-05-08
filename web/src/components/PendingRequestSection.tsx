@@ -114,7 +114,9 @@ export default function PendingRequestSection() {
                 ) : (
                   <PendingReqIcon className="h-6 w-6 shrink-0 text-yellow-400" />
                 )}
-                {request.expand.user.name}
+                {isIncomingRequest
+                  ? request.expand.user.name
+                  : request.expand.friend.name}
               </div>
               <div className="flex gap-1">
                 {isIncomingRequest ? (

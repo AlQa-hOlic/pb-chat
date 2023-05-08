@@ -14,9 +14,9 @@ export default function MainLayout() {
       label: 'PB Chat',
     },
     {
-      href: '/messages',
+      href: '/conversations',
       icon: MessageIcon,
-      label: 'Messages',
+      label: 'Conversations',
     },
     {
       href: '/manage_friends',
