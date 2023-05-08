@@ -33,6 +33,8 @@ function ConversationList() {
         alias: string
         expand: {
           users: {
+            id: string
+            collectionId: string
             name: string
             email: string
             username: string
@@ -42,6 +44,7 @@ function ConversationList() {
       }>(1, 20, {
         filter: `users ~ "${pb.authStore.model?.id}" && (alias ~ "${search}" ${userFilter})`,
         expand: 'users',
+        sort: '-is_pinned',
       })
     }
   )
@@ -67,20 +70,20 @@ function ConversationList() {
       </div>
       <ul className="space-y-3 py-4">
         {data?.items.map((conversation) => {
-          const avatar =
-            conversation.expand.users[
-              conversation.users.findIndex(
-                (user) => user === pb.authStore.model?.id
-              )
-            ].avatar
+          const otherUserIdx = conversation.users.findIndex(
+            (user) => user !== pb.authStore.model?.id
+          )
+          const otherUser = conversation.expand.users[otherUserIdx]
 
-          const name =
-            conversation.alias ||
-            conversation.expand.users[
-              conversation.users.findIndex(
-                (user) => user !== pb.authStore.model?.id
-              )
-            ].name
+          let avatar = otherUser.avatar
+
+          if (avatar) {
+            avatar =
+              import.meta.env.VITE_POCKETBASE_URL +
+              `/api/files/${otherUser.collectionId}/${otherUser.id}/${avatar}`
+          }
+
+          const name = conversation.alias || otherUser.name
           return (
             <li key={conversation.id}>
               <Link
