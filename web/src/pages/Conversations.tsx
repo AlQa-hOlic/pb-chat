@@ -7,13 +7,42 @@ import { ReactComponent as SearchIcon } from '../assets/search.svg'
 import Avatar from '../components/Avatar'
 import { pb } from '../services'
 
-function ConversationList() {
-  const { pathname } = useLocation()
-  const [_search, setSearch] = useState('')
-  const search = useDebounce(_search, 400)
-  const searchInputId = useId()
+interface ConversationListItemProps {
+  isActive: boolean
+  conversationId: string
+  name: string
+  avatar: string
+}
 
-  const { data } = useQuery(
+function ConversationListItem({
+  isActive,
+  conversationId,
+  name,
+  avatar,
+}: ConversationListItemProps) {
+  return (
+    <li className="select-none">
+      <Link
+        to={`/conversations/${conversationId}`}
+        draggable={false}
+        className={`flex items-start gap-4 rounded-lg p-2 hover:bg-slate-100 ${
+          isActive ? 'bg-slate-100' : ''
+        }`}
+      >
+        <Avatar src={avatar} />
+        <div className="flex flex-col">
+          <span className="font-semibold text-slate-900">{name}</span>
+          <span className="text-xs text-slate-500">
+            Started a conversation{' '}
+          </span>
+        </div>
+      </Link>
+    </li>
+  )
+}
+
+function useConversationsList(search: string) {
+  return useQuery(
     ['searchConversations', pb.authStore.model?.id, search],
     async () => {
       const users = await pb.collection('user_friends').getFullList({
@@ -46,8 +75,22 @@ function ConversationList() {
         expand: 'users',
         sort: '-is_pinned',
       })
+    },
+    {
+      cacheTime: 60 * 1000, // 1 min
+      staleTime: 60 * 1000, // 1 min
     }
   )
+}
+
+function ConversationList() {
+  const { pathname } = useLocation()
+  const [_search, setSearch] = useState('')
+  const search = useDebounce(_search, 400)
+  const searchInputId = useId()
+
+  const { data } = useConversationsList(search)
+
   return (
     <div
       className={`shrink-0 grow border-slate-200 p-2 lg:w-72 lg:grow-0 lg:border-r ${
@@ -85,24 +128,13 @@ function ConversationList() {
 
           const name = conversation.alias || otherUser.name
           return (
-            <li key={conversation.id}>
-              <Link
-                to={`/conversations/${conversation.id}`}
-                className={`flex items-start gap-4 rounded-lg p-2 hover:bg-slate-100 ${
-                  pathname === `/conversations/${conversation.id}`
-                    ? 'bg-slate-100'
-                    : ''
-                }`}
-              >
-                <Avatar src={avatar} />
-                <div className="flex flex-col">
-                  <span className="font-semibold text-slate-900">{name}</span>
-                  <span className="text-xs text-slate-500">
-                    Started a conversation{' '}
-                  </span>
-                </div>
-              </Link>
-            </li>
+            <ConversationListItem
+              key={conversation.id}
+              conversationId={conversation.id}
+              isActive={pathname === `/conversations/${conversation.id}`}
+              name={name}
+              avatar={avatar}
+            />
           )
         })}
       </ul>
@@ -116,7 +148,7 @@ export default function Conversations() {
     <>
       <ConversationList />
       <div
-        className={` grow ${
+        className={`flex grow ${
           pathname === '/conversations' ? 'hidden lg:block' : ''
         }`}
       >
