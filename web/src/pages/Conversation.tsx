@@ -1,6 +1,7 @@
 import { useEffect, useRef } from 'react'
 import { useMutation, useQuery, useQueryClient } from 'react-query'
 import { LoaderFunctionArgs, useLoaderData } from 'react-router-dom'
+import { useMediaQuery } from 'usehooks-ts'
 
 import Input from '../components/Input'
 import TextMessage from '../components/TextMessage'
@@ -18,6 +19,7 @@ export default function Conversations() {
   const chatContainerRef = useRef<HTMLDivElement>(null)
   const queryClient = useQueryClient()
   const { conversationId } = useLoaderData() as LoaderData
+  const isMobile = useMediaQuery('(max-width: 768px)')
 
   const { data, isLoading } = useQuery(
     ['getMessages', pb.authStore.model?.id, conversationId],
@@ -117,6 +119,20 @@ export default function Conversations() {
   )
 
   useEffect(() => {
+    pb.collection('messages').subscribe('*', function () {
+      queryClient.invalidateQueries([
+        'getMessages',
+        pb.authStore.model?.id,
+        conversationId,
+      ])
+    })
+
+    return () => {
+      pb.collection('messages').unsubscribe('*')
+    }
+  }, [])
+
+  useEffect(() => {
     chatContainerRef.current?.scrollTo(0, document.body.scrollHeight)
   }, [data])
 
@@ -128,7 +144,11 @@ export default function Conversations() {
     )
 
   return (
-    <div className="flex max-h-screen w-full flex-col p-4 py-6">
+    <div
+      className={`flex max-h-screen w-full flex-col p-4 py-6 ${
+        isMobile ? 'pb-16' : 'pb-4'
+      }`}
+    >
       <div
         ref={chatContainerRef}
         className="custom-scrollbar mr-[10px] flex grow flex-col space-y-3 overflow-y-scroll p-4"

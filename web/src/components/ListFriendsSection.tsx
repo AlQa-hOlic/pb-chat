@@ -96,6 +96,8 @@ export default function ListFriendsSection() {
         pb.authStore.model?.id,
         '',
       ])
+
+      queryClient.invalidateQueries(['searchConversations', friendId, ''])
     }
   )
 
