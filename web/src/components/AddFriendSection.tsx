@@ -59,7 +59,7 @@ export default function AddFriendSection() {
   }
 
   return (
-    <div className="flex flex-col gap-4 p-8">
+    <div className="flex flex-col gap-4">
       <h1 className="text-xl">Add Friend</h1>
       <form onSubmit={handleSubmit(onAddFriend)} className="flex gap-4">
         <Input

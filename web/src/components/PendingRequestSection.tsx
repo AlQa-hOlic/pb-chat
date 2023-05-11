@@ -61,14 +61,24 @@ export default function PendingRequestSection() {
         await pb.collection('user_friends').create({
           user: pb.authStore.model?.id,
           friend: friendId,
-          is_pinned: false,
         })
 
         await pb.collection('user_friends').create({
           user: friendId,
           friend: pb.authStore.model?.id,
+        })
+
+        await pb.collection('conversations').create({
+          users: [friendId, pb.authStore.model?.id],
           is_pinned: false,
         })
+
+        queryClient.invalidateQueries([
+          'searchConversations',
+          pb.authStore.model?.id,
+          '',
+        ])
+        queryClient.invalidateQueries(['friendList', pb.authStore.model?.id])
       } catch (e) {
         if (
           e instanceof ClientResponseError &&
@@ -92,7 +102,7 @@ export default function PendingRequestSection() {
     !isLoading && !isError && data && data.length !== 0
 
   return shouldShowFriendRequests ? (
-    <div className="flex flex-col gap-4 p-8">
+    <div className="flex flex-col gap-4">
       <h1 className="text-xl">Friend Requests</h1>
       <ul className="flex flex-wrap gap-4">
         {data?.map((request) => {

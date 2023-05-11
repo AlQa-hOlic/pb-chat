@@ -80,6 +80,10 @@ export default function Conversations() {
         lastMessageType = element.type
       }
 
+      if (group.length != 0) {
+        groupedList.push(group)
+      }
+
       return groupedList
     },
     {
@@ -96,6 +100,7 @@ export default function Conversations() {
       message: string
       conversationId: string
     }) => {
+      if (message.trim() === '') return
       await pb.collection('messages').create({
         type: 'text',
         payload: message,
